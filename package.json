@@ -1,0 +1,20 @@
+{
+  "name": "iitbazaar",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.4",
+    "mocha": "^6.0.2",
+    "mongoose": "^5.4.16"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.10"
+  }
+}
