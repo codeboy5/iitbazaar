@@ -1,11 +1,13 @@
 const mongoose = require("mongoose");
+const bcrypt = require("bcryptjs");
 const Schema = mongoose.Schema;
 
 const CartSchema = require("./cart");
 
 const UserSchema = new Schema({
   name: {
-    type: String
+    type: String,
+    text: true
   },
   email: {
     type: String
@@ -19,6 +21,14 @@ const UserSchema = new Schema({
   phoneNumber: Number,
   cart: CartSchema
 });
+
+UserSchema.methods.generateHash = function(password) {
+  return bcrypt.hashSync(password, bcrypt.genSalt(), null);
+};
+
+UserSchema.methods.checkPassword = function(password) {
+  return bcrypt.compareSync(password, this.password);
+};
 
 const User = mongoose.model("User", UserSchema);
 
