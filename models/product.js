@@ -19,6 +19,19 @@ const ProductSchema = new Schema({
   },
   category: {
     type: String
+    // validate: {
+    //   validator: category => {
+    //     //TODO CHECK IF VALUE IS IN A ARRAY
+    //     const categories = ["clothes,books,toys"];
+    //     const index = categories.findIndex(category);
+    //     if (index === -1) {
+    //       return false;
+    //     } else {
+    //       return true;
+    //     }
+    //   },
+    //   message: "This Category Doesn't Exist "
+    // }
   },
   price: {
     type: Number

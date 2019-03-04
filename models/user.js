@@ -10,7 +10,8 @@ const UserSchema = new Schema({
     text: true
   },
   email: {
-    type: String
+    type: String,
+    lowercase: true
   },
   password: {
     type: String
@@ -23,7 +24,7 @@ const UserSchema = new Schema({
 });
 
 UserSchema.methods.generateHash = function(password) {
-  return bcrypt.hashSync(password, bcrypt.genSalt(), null);
+  return bcrypt.hashSync(password, 10, null);
 };
 
 UserSchema.methods.checkPassword = function(password) {
