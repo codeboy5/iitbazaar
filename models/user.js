@@ -20,7 +20,15 @@ const UserSchema = new Schema({
     type: String
   },
   phoneNumber: Number,
-  cart: CartSchema
+  cart: [CartSchema]
+});
+
+UserSchema.virtual("totalCartPrice").get(function() {
+  let totalPrice = 0;
+  this.cart.forEach(element => {
+    totalPrice += element.quantity * element.price;
+  });
+  return totalPrice;
 });
 
 UserSchema.methods.generateHash = function(password) {

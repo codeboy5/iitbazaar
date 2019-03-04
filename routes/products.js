@@ -25,6 +25,16 @@ router.post(
   productController.postAddProduct
 );
 
+router.post(
+  "/addProductToCart",
+  isLoggedIn,
+  productController.postAddProductToCart
+);
+
+router.post("/:id/addComment", isLoggedIn, productController.postAddComment);
+
+router.get("/:id", productController.getProduct);
+
 router.get("/", productController.getAllProducts);
 
 module.exports = router;

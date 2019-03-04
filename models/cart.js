@@ -5,16 +5,13 @@ const Schema = mongoose.Schema;
 //! NESTED WITHIN THE USER MODEL
 
 const CartSchema = new Schema({
-  products: [
-    {
-      quantity: Number,
-      price: Number,
-      product: {
-        type: Schema.Types.ObjectId,
-        ref: "Product"
-      }
-    }
-  ]
+  quantity: Number,
+  price: Number,
+  product: {
+    type: Schema.Types.ObjectId,
+    ref: "Product"
+  },
+  name: String
 });
 
 //TODO:- ADD A VIRTUAL PROPERTY TO CALCULATE THE TOTAL VALUE OF CART

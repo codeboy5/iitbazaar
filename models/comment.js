@@ -9,10 +9,7 @@ const CommentSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "User"
   },
-  title: {
-    type: String
-  },
-  body: {
+  content: {
     type: String
   }
 });
