@@ -4,18 +4,20 @@ const { validationResult } = require("express-validator/check");
 const User = require("../models/user");
 
 exports.postSignup = (req, res, next) => {
-  const { name, email, password1, password2 } = req.body;
+  const { name, email, password1, password2, username } = req.body;
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     //TODO return the user to signup page
     console.log(errors.array());
     return res.status(422).send("Hello We Found An Error");
   }
-  User.findOne({ email: email }).then(user => {
-    if (user) {
+  User.findOne({
+    $or: [{ username: username }, { email: email }]
+  }).then(users => {
+    if (users) {
       //! Email is Already In Use
       // console.log("Email Is Already In Use");
-      return res.status(420).send("Email Is Already In Use");
+      return res.status(420).send("Username or Email Is Already In Use");
     }
     if (password1 !== password2) {
       //! passwords do not match
@@ -23,7 +25,8 @@ exports.postSignup = (req, res, next) => {
     }
     const newUser = new User({
       name: name,
-      email: email
+      email: email,
+      username: username
     });
     newUser.password = newUser.generateHash(password1);
     newUser.save().then(user => {

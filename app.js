@@ -29,12 +29,13 @@ app.use(flash());
 app.use(express.static(path.join(__dirname, "public")));
 
 app.get("/", (req, res, next) => {
-  // console.log(req.isAuthenticated());
+  console.log(req.isAuthenticated());
   // console.log(req.user);
   return res.status(422).send("Yippee Everything is Finally Working");
 });
 app.use("/auth", require("./routes/auth"));
 app.use("/products", require("./routes/products"));
+app.use("/admin", require("./routes/admin"));
 
 app.use((error, req, res, next) => {
   console.log(error);

@@ -3,7 +3,7 @@ const User = require("../models/user");
 const { validationResult } = require("express-validator/check");
 
 exports.getAllProducts = (req, res, next) => {
-  Product.find({})
+  Product.find({ flagged: false })
     .sort({ name: 1 })
     .skip(0)
     .limit(20)
@@ -114,6 +114,21 @@ exports.postFilterProducts = (req, res, next) => {
   Product.find(buildQuery(criteria))
     .then(products => {
       res.status(422).send(products);
+    })
+    .catch(err => {
+      next(err);
+    });
+};
+
+exports.getAddLikeToProduct = (req, res, next) => {
+  const { id } = req.params;
+  Product.findById(id)
+    .then(product => {
+      return product.likeProduct(req.user._id);
+    })
+    .then(product => {
+      console.log("Product Was Liked");
+      res.status(422).send(product);
     })
     .catch(err => {
       next(err);

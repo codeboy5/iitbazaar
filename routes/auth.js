@@ -17,7 +17,11 @@ router.post(
       .withMessage("Name Must Be Longer Than 2 Characters"),
     check("email")
       .isEmail()
-      .withMessage("Not A Valid Email Address")
+      .withMessage("Not A Valid Email Address"),
+    check("username")
+      .exists()
+      .withMessage("Username is Required")
+    // .trim()
     // .custom(email => {
     //   User.findOne({ email: email }).then(user => {
     //     if (user) {
@@ -34,9 +38,9 @@ router.post(
 router.post(
   "/login",
   [
-    check("email")
-      .isEmail()
-      .withMessage("Enter A Valid Email Address"),
+    check("username")
+      .exists()
+      .withMessage("Username Cannot Be Empty"),
     check("password")
       .exists()
       .withMessage("password cannot be blank")

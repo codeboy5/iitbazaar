@@ -45,7 +45,11 @@ const ProductSchema = new Schema({
       type: Schema.Types.ObjectId,
       ref: "User"
     }
-  ]
+  ],
+  flagged: {
+    type: Boolean,
+    default: false
+  }
 });
 
 //* VIRTUAL PROPERTY :- NOT PERSISTED TO THE DATABASE
@@ -53,7 +57,13 @@ ProductSchema.virtual("numberOfLikes").get(function() {
   return this.likedBy.length;
 });
 
-//TODO:- ADD METHODS TO INCREASE THE NUMBER OF LIKES
+//* METHODS
+ProductSchema.methods.likeProduct = function(user_id) {
+  if (this.likedBy.indexOf(user_id) === 1) {
+    this.likedBy.push(user_id);
+  }
+  return this.save();
+};
 
 //TODO:- ADD THE RATING PROPERTY AND DISPLAY THE AVERAGE OF THE ALL THE RATINGS USING VIRTUAL PROPERTY
 
