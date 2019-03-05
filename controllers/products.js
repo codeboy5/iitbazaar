@@ -16,18 +16,6 @@ exports.getAllProducts = (req, res, next) => {
     });
 };
 
-exports.filterProducts = (req, res, next) => {
-  const criteria = {};
-  Product.find(buildQuery(criteria))
-    .populate("author")
-    .then(products => {
-      return res.send(products);
-    })
-    .catch(err => {
-      next(err);
-    });
-};
-
 exports.getProduct = (req, res, next) => {
   //! RETRIEVE ID FROM THE REQ BODY OR PARAMS
   const { id } = req.params;
@@ -106,6 +94,26 @@ exports.postAddProductToCart = (req, res, next) => {
     .then(user => {
       console.log(user.totalCartPrice);
       return res.status(422).send("Product Was Added To The Cart");
+    })
+    .catch(err => {
+      next(err);
+    });
+};
+
+exports.postFilterProducts = (req, res, next) => {
+  const criteria = {};
+  if (req.body.name) {
+    criteria.name = req.body.name;
+  }
+  if (req.body.minPrice && req.body.maxPrice) {
+    criteria.price = {
+      min: req.body.minPrice,
+      max: req.body.maxPrice
+    };
+  }
+  Product.find(buildQuery(criteria))
+    .then(products => {
+      res.status(422).send(products);
     })
     .catch(err => {
       next(err);

@@ -20,7 +20,11 @@ const UserSchema = new Schema({
     type: String
   },
   phoneNumber: Number,
-  cart: [CartSchema]
+  cart: [CartSchema],
+  admin: {
+    type: Boolean,
+    default: false
+  }
 });
 
 UserSchema.virtual("totalCartPrice").get(function() {
