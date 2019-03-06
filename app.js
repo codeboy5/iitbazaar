@@ -8,14 +8,35 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const expressValidator = require("express-validator");
 const path = require("path");
+const multer = require("multer");
+const cloudinary = require("cloudinary");
+const cloudinaryStorage = require("multer-storage-cloudinary");
+
+const keys = require("./config/keys");
 
 const app = express();
 
 require("./config/passport")(passport);
 
+cloudinary.config({
+  cloud_name: keys.cloudinaryConfig.cloud_name,
+  api_key: keys.cloudinaryConfig.api_key,
+  api_secret: keys.cloudinaryConfig.api_secret
+});
+
+const storage = cloudinaryStorage({
+  cloudinary: cloudinary,
+  folder: "products",
+  allowedFormats: ["jpg", "png"],
+  transformation: [{ width: 500, height: 500, crop: "limit" }]
+});
+
 // app.use(morgan("dev"));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(multer({ storage: storage }).single("image"));
+
+// const parser = multer({ storage: storage });
 
 app.use(expressValidator());
 

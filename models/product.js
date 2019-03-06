@@ -49,6 +49,12 @@ const ProductSchema = new Schema({
   flagged: {
     type: Boolean,
     default: false
+  },
+  imageURL: {
+    type: String
+  },
+  imageID: {
+    type: String
   }
 });
 

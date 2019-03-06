@@ -16,6 +16,10 @@ exports.getAllProducts = (req, res, next) => {
     });
 };
 
+exports.getAddProduct = (req, res, next) => {
+  res.render("products/addProduct");
+};
+
 exports.getProduct = (req, res, next) => {
   //! RETRIEVE ID FROM THE REQ BODY OR PARAMS
   const { id } = req.params;
@@ -62,6 +66,11 @@ exports.postAddProduct = (req, res, next) => {
     category: category,
     seller: req.user
   });
+  if (req.file) {
+    const { url, public_id } = req.file;
+    newProduct.imageURL = url;
+    newProduct.imageID = public_id;
+  }
   newProduct
     .save()
     .then(product => {

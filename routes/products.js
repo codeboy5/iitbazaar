@@ -6,6 +6,8 @@ const { isLoggedIn } = require("../middlewares/isAuth");
 
 const productController = require("../controllers/products");
 
+router.get("/addProduct", isLoggedIn, productController.getAddProduct);
+
 router.post(
   "/addProduct",
   isLoggedIn,
