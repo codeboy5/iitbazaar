@@ -31,7 +31,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.get("/", (req, res, next) => {
   console.log(req.isAuthenticated());
   // console.log(req.user);
-  return res.status(422).send("Yippee Everything is Finally Working");
+  return res.render("index");
 });
 app.use("/auth", require("./routes/auth"));
 app.use("/products", require("./routes/products"));

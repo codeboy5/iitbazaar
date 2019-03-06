@@ -7,6 +7,10 @@ const User = require("../models/user");
 
 const authController = require("../controllers/auth");
 
+router.get("/signup", authController.getSignup);
+
+router.get("/login", authController.getLogin);
+
 router.post(
   "/signup",
   [
@@ -17,6 +21,7 @@ router.post(
       .withMessage("Name Must Be Longer Than 2 Characters"),
     check("email")
       .isEmail()
+      .exists()
       .withMessage("Not A Valid Email Address"),
     check("username")
       .exists()

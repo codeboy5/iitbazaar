@@ -60,3 +60,11 @@ exports.getLogout = (req, res) => {
   req.logout();
   res.redirect("/");
 };
+
+exports.getLogin = (req, res, next) => {
+  res.render("auth/login");
+};
+
+exports.getSignup = (req, res, next) => {
+  res.render("auth/signup");
+};
