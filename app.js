@@ -11,6 +11,7 @@ const path = require("path");
 const multer = require("multer");
 const cloudinary = require("cloudinary");
 const cloudinaryStorage = require("multer-storage-cloudinary");
+const sgMail = require("@sendgrid/mail");
 //! TO BE ADDED
 // const csrf = require('csrf')
 
@@ -25,6 +26,8 @@ cloudinary.config({
   api_key: keys.cloudinaryConfig.api_key,
   api_secret: keys.cloudinaryConfig.api_secret
 });
+
+sgMail.setApiKey(keys.sendgridConfig.api_key);
 
 const storage = cloudinaryStorage({
   cloudinary: cloudinary,

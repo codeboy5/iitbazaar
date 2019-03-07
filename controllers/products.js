@@ -47,7 +47,7 @@ exports.getAllProducts = (req, res, next) => {
     .populate("seller")
     .then(products => {
       // return res.status(422).send(products);
-      res.render("products/products", { products: products });
+      return res.render("products/products", { products: products });
     })
     .catch(err => {
       next(err);
