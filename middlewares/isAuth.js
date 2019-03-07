@@ -3,7 +3,7 @@ exports.isLoggedIn = (req, res, next) => {
     return next();
   }
   console.log("User Needs To Be Logged In");
-  res.redirect("/");
+  res.redirect("/auth/login");
 };
 
 exports.isAdmin = (req, res, next) => {
@@ -11,5 +11,13 @@ exports.isAdmin = (req, res, next) => {
     return next();
   }
   console.log("User Was Not An Admin");
+  res.redirect("/");
+};
+
+exports.isCurrentUser = (req, res, next) => {
+  if (req.user.id === req.params.id) {
+    return next();
+  }
+  console.log("Cannot Edit This User");
   res.redirect("/");
 };

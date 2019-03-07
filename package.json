@@ -1,12 +1,19 @@
 {
   "name": "iitbazaar",
   "version": "1.0.0",
-  "description": "Online Web Store Built for The DevClub Assignment",
+  "description": "DevClub Project",
   "main": "app.js",
+  "directories": {
+    "test": "test"
+  },
   "scripts": {
     "test": "nodemon --exec 'mocha -R min' ",
     "start": "node app.js",
     "dev": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/codeboy5/iitbazaar.git"
   },
   "keywords": [],
   "author": "",
@@ -22,15 +29,22 @@
     "express": "^4.16.4",
     "express-session": "^1.15.6",
     "express-validator": "^5.3.0",
+    "helmet": "^3.15.1",
     "mocha": "^6.0.2",
     "mongoose": "^5.4.16",
     "multer": "^1.4.1",
     "multer-storage-cloudinary": "^2.2.1",
     "passport": "^0.4.0",
-    "passport-local": "^1.0.0"
+    "passport-local": "^1.0.0",
+    "pdf-invoice": "^1.0.2",
+    "pdfkit": "^0.9.0"
   },
   "devDependencies": {
     "chai": "^4.2.0",
     "nodemon": "^1.18.10"
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/codeboy5/iitbazaar/issues"
+  },
+  "homepage": "https://github.com/codeboy5/iitbazaar#readme"
 }
