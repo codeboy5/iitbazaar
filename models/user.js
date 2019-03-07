@@ -33,9 +33,14 @@ const UserSchema = new Schema({
     type: String,
     unique: true,
     lowercase: true
+  },
+  respectPoints: {
+    type: String,
+    required: true
   }
 });
 
+//TODO:- CHECK IF THE USER HAS APPLIED THE OPTION TO USE THE RESPECT POINTS AND THEN ACCORDINGLY DEDUCT THE PRICE
 UserSchema.virtual("totalCartPrice").get(function() {
   let totalPrice = 0;
   this.cart.forEach(element => {

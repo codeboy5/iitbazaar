@@ -21,7 +21,7 @@ router.post(
     check("category")
       .exists()
       .withMessage("Category Cannot Be Empty")
-      .isIn(["books", "fashion", "toys"])
+      .isIn(["books", "fashion", "tech"])
       .withMessage("No Such Category")
   ],
   productController.postAddProduct

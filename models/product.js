@@ -55,6 +55,10 @@ const ProductSchema = new Schema({
   },
   imageID: {
     type: String
+  },
+  description: {
+    type: String,
+    default: "Basic Information About The Product"
   }
 });
 

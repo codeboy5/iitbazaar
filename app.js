@@ -11,6 +11,8 @@ const path = require("path");
 const multer = require("multer");
 const cloudinary = require("cloudinary");
 const cloudinaryStorage = require("multer-storage-cloudinary");
+//! TO BE ADDED
+// const csrf = require('csrf')
 
 const keys = require("./config/keys");
 
@@ -47,11 +49,17 @@ app.use(session({ secret: "secret", resave: true, saveUninitialized: true }));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
+// app.use(csrf())
 app.use(express.static(path.join(__dirname, "public")));
 
+app.use((req, res, next) => {
+  res.locals.isLoggedIn = req.isAuthenticated();
+  // res.locals.csrfToken = req.csrfToken();
+  next();
+});
+
 app.get("/", (req, res, next) => {
-  console.log(req.isAuthenticated());
-  // console.log(req.user);
+  // console.log(req.isAuthenticated());
   return res.render("index");
 });
 app.use("/auth", require("./routes/auth"));
