@@ -28,10 +28,14 @@ exports.getBlockUser = (req, res, next) => {
       return user.save();
     })
     .then(() => {
-      console.log("user is blocked,would no longer be able to ");
+      console.log("user is blocked,would no longer be able to Login");
       return res.redirect("/");
     })
     .catch(err => {
       next(err);
     });
+};
+
+exports.getAdminPanel = (req, res, next) => {
+  return res.render("admin/admin");
 };

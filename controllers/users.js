@@ -17,8 +17,7 @@ exports.getUserProfile = (req, res, next) => {
     .then(result => {
       const user = result[0];
       const products = result[1];
-      console.log(products);
-      return res.status(422).send("We Found The User");
+      return res.render("users/user", { user: user, products: products });
     })
     .catch(err => {
       next(err);

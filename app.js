@@ -58,6 +58,13 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use((req, res, next) => {
   res.locals.isLoggedIn = req.isAuthenticated();
   // res.locals.csrfToken = req.csrfToken();
+  if (req.user) {
+    res.locals.isAdmin = req.user.admin;
+    res.locals.profile = req.user;
+  } else {
+    res.locals.isAdmin = undefined;
+    res.locals.profile = undefined;
+  }
   next();
 });
 

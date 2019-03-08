@@ -65,8 +65,7 @@ exports.getProduct = (req, res, next) => {
     .populate("seller")
     .populate("comments.author")
     .then(product => {
-      console.log("Found the Product");
-      return res.status(422).send(product);
+      return res.render("products/product", { product: product });
     })
     .catch(err => {
       next(err);
@@ -85,8 +84,7 @@ exports.postAddComment = (req, res, next) => {
       return product.save();
     })
     .then(product => {
-      console.log(product, "Comment Was Added");
-      return res.status(422).send(product);
+      return res.redirect(`/products/${product.id}`);
     });
 };
 

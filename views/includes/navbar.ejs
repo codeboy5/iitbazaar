@@ -38,12 +38,17 @@
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
           <!-- MAKE THIS A LINK TO THE CURRENT USER PROFILE -->
-          <a class="dropdown-item" href="/users/">Profile</a>
+          <a class="dropdown-item" href="/users/<%= profile.id %>">Profile</a>
           <div class="dropdown-divider"></div>
           <a class="dropdown-item" href="#">Check My Cart</a>
           <a class="dropdown-item" href="/products/addProduct">Add An Item</a>
         </div>
       </li>
+      <% if(isAdmin) {%>
+      <li class="nav-item active">
+        <a href="/admin" class="nav-link">Admin Panel</a>
+      </li>
+      <%}%>
       <li class="nav-item active">
         <a href="/auth/logout" class="nav-link">Logout</a>
       </li>

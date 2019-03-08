@@ -33,7 +33,7 @@ router.post(
   productController.postAddProductToCart
 );
 
-router.post("/:id/addComment", isLoggedIn, productController.postAddComment);
+router.post("/addComment/:id", isLoggedIn, productController.postAddComment);
 
 router.get("/:id", productController.getProduct);
 
