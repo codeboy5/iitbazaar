@@ -36,8 +36,9 @@ const UserSchema = new Schema({
   },
   respectPoints: {
     type: String,
-    required: true
-  }
+    default: 0
+  },
+  pdf: String
 });
 
 //TODO:- CHECK IF THE USER HAS APPLIED THE OPTION TO USE THE RESPECT POINTS AND THEN ACCORDINGLY DEDUCT THE PRICE
@@ -48,6 +49,23 @@ UserSchema.virtual("totalCartPrice").get(function() {
   });
   return totalPrice;
 });
+
+UserSchema.methods.addProductToCart = function(prod, quantity = 1) {
+  const index = this.cart.findIndex(
+    item => item.product.toString() === prod._id.toString()
+  );
+  if (index === -1) {
+    this.cart.push({
+      name: prod.name,
+      product: prod,
+      price: prod.price,
+      quantity: quantity
+    });
+  } else {
+    this.cart[index].quantity += quantity;
+  }
+  return this.save();
+};
 
 UserSchema.methods.generateHash = function(password) {
   return bcrypt.hashSync(password, 10, null);

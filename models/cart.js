@@ -14,6 +14,4 @@ const CartSchema = new Schema({
   name: String
 });
 
-//TODO:- ADD A VIRTUAL PROPERTY TO CALCULATE THE TOTAL VALUE OF CART
-
 module.exports = CartSchema;

@@ -6,47 +6,12 @@ const User = require("../models/user");
 const { validationResult } = require("express-validator/check");
 
 exports.getAllProducts = (req, res, next) => {
-  // const document = pdfInvoice({
-  //   company: {
-  //     phone: "(99) 9 9999-9999",
-  //     email: "company@evilcorp.com",
-  //     address: "Av. Companhia, 182, Água Branca, Piauí",
-  //     name: "Evil Corp."
-  //   },
-  //   customer: {
-  //     name: "Elliot Raque",
-  //     email: "raque@gmail.com"
-  //   },
-  //   items: [
-  //     {
-  //       amount: 50.0,
-  //       name: "XYZ",
-  //       description: "Lorem ipsum dollor sit amet",
-  //       quantity: 12
-  //     },
-  //     {
-  //       amount: 12.0,
-  //       name: "ABC",
-  //       description: "Lorem ipsum dollor sit amet",
-  //       quantity: 12
-  //     },
-  //     {
-  //       amount: 127.72,
-  //       name: "DFE",
-  //       description: "Lorem ipsum dollor sit amet",
-  //       quantity: 12
-  //     }
-  //   ]
-  // });
-  // document.generate();
-  // document.pdfkitDoc.pipe(fs.createWriteStream("file.pdf"));
   Product.find({ flagged: false })
     .sort({ name: 1 })
     .skip(0)
     .limit(20)
     .populate("seller")
     .then(products => {
-      // return res.status(422).send(products);
       return res.render("products/products", { products: products });
     })
     .catch(err => {
@@ -95,12 +60,13 @@ exports.postAddProduct = (req, res, next) => {
     console.log(errors.array());
     return res.status(422).send("Error While Adding a Product");
   }
-  const { name, category, price } = req.body;
+  const { name, category, price, description } = req.body;
   const newProduct = new Product({
     name: name,
     price: price,
     category: category,
-    seller: req.user
+    seller: req.user,
+    description: description
   });
   if (req.file) {
     const { url, public_id } = req.file;
@@ -111,7 +77,7 @@ exports.postAddProduct = (req, res, next) => {
     .save()
     .then(product => {
       console.log(product);
-      return res.status(422).send("Product Was Added To The Database");
+      return res.redirect("/");
     })
     .catch(err => {
       next(err);
@@ -120,25 +86,17 @@ exports.postAddProduct = (req, res, next) => {
 
 //TODO Add Product To Cart
 exports.postAddProductToCart = (req, res, next) => {
-  const { id, quantity } = req.body;
-
-  const userQuery = User.findById(req.user._id);
-  const productQuery = Product.findById(id);
-
+  const prodID = req.params.id;
+  const userQuery = User.findById(req.user.id);
+  const productQuery = Product.findById(prodID);
   Promise.all([userQuery, productQuery])
     .then(results => {
-      const newCartItem = {
-        name: results[1].name,
-        price: results[1].price,
-        quantity: quantity,
-        product: results[1]
-      };
-      results[0].cart.push(newCartItem);
-      return results[0].save();
+      const user = results[0];
+      const product = results[1];
+      return user.addProductToCart(product);
     })
-    .then(user => {
-      console.log(user.totalCartPrice);
-      return res.status(422).send("Product Was Added To The Cart");
+    .then(() => {
+      res.redirect("/products");
     })
     .catch(err => {
       next(err);

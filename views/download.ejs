@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Login-BIIT</title>
+    <title>IIT Bazaar</title>
     <link
       rel="stylesheet"
       href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
@@ -19,19 +19,9 @@
     />
   </head>
   <body>
-    <%- include('../includes/navbar.ejs') %>
-    <div class="container">
-      <form action="/auth/login" method="post">
-        <input type="text" name="username" placeholder="Enter Your Username" />
-        <input
-          type="password"
-          name="password"
-          placeholder="Enter Your Password"
-        />
-        <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
-        <input type="submit" value="Login" />
-      </form>
-    </div>
+    <%- include('./includes/navbar.ejs') %>
+    <h1>Click Below To See Your Invoice</h1>
+    <a href="/users/invoice/<%= pdf %>">Invoice</a>
     <script
       src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
       integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"

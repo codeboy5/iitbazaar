@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Login-BIIT</title>
+    <title>BIIT - USER CART</title>
     <link
       rel="stylesheet"
       href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
@@ -21,16 +21,27 @@
   <body>
     <%- include('../includes/navbar.ejs') %>
     <div class="container">
-      <form action="/auth/login" method="post">
-        <input type="text" name="username" placeholder="Enter Your Username" />
-        <input
-          type="password"
-          name="password"
-          placeholder="Enter Your Password"
-        />
-        <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
-        <input type="submit" value="Login" />
-      </form>
+      <div class="row">
+        <h4 class="display-4">Total Cart Price : <%= user.totalCartPrice %></h4>
+      </div>
+      <% for(let item of user.cart) {%>
+      <div class="row">
+        <div class="col">
+          Name: <a href="/products/<%= item.product %>"><%= item.name %></a>
+        </div>
+        <div class="col">Quantity: <%= item.quantity %></div>
+        <div class="col">Price: <%= item.price %></div>
+      </div>
+      <% } %>
+      <hr />
+      <hr />
+      <hr />
+      <hr />
+      <div class="row">
+        <a class="btn btn-lg btn-block btn-primary" href="/users/checkout"
+          >Checkout</a
+        >
+      </div>
     </div>
     <script
       src="https://code.jquery.com/jquery-3.3.1.slim.min.js"

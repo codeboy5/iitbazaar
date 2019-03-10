@@ -31,7 +31,7 @@ exports.postSignup = (req, res, next) => {
     newUser.password = newUser.generateHash(password1);
     newUser.save().then(user => {
       //* User Was Created
-      return res.status(422).send("Hello");
+      return res.redirect("/");
     });
   });
   //TODO SET UP THE REGISTRATION OF EVERYTHING
@@ -40,7 +40,7 @@ exports.postSignup = (req, res, next) => {
 exports.postLogin = passport.authenticate("local", {
   //TODO:- FILL THE REQUIRED PATHS
   successRedirect: "/",
-  failureRedirect: "/",
+  failureRedirect: "/auth/login",
   failureFlash: true
 });
 

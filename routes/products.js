@@ -22,13 +22,17 @@ router.post(
       .exists()
       .withMessage("Category Cannot Be Empty")
       .isIn(["books", "fashion", "tech"])
-      .withMessage("No Such Category")
+      .withMessage("No Such Category"),
+    check("description")
+      .exists()
+      .isLength({ min: 5 })
+      .withMessage("Is Required and Longer Than 5")
   ],
   productController.postAddProduct
 );
 
-router.post(
-  "/addProductToCart",
+router.get(
+  "/addProductToCart/:id",
   isLoggedIn,
   productController.postAddProductToCart
 );

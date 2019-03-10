@@ -48,6 +48,7 @@
         ></textarea>
         <label for="image">Product Image</label>
         <input type="file" name="image" placeholder="picture" />
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
         <input type="submit" value="Add This Product" />
       </form>
     </div>

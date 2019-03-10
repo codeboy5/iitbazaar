@@ -24,35 +24,68 @@ exports.getUserProfile = (req, res, next) => {
     });
 };
 
+exports.getUserCart = (req, res, next) => {
+  User.findById(req.user.id)
+    .then(user => {
+      res.render("users/cart", { user: user });
+    })
+    .catch(err => {
+      next(err);
+    });
+};
+
 exports.getCheckout = (req, res, next) => {
   let today = new Date().toISOString().slice(0, 10);
   const id = req.user.id;
-  User.findById(id).then(user => {
-    const newDocument = {
-      company: {
-        phone: "(99) 9 9999-9999",
-        email: "biit@evilcorp.com",
-        address: "IIT Delhi",
-        name: "BIIT"
-      },
-      customer: {
-        name: user.firstName,
-        email: user.email
-      },
-      items: []
-    };
-    const document = pdfInvoice(newDocument);
-    document.generate();
-    document.pdfkitDoc.pipe(
-      fs.createWriteStream(`../public/invoices/${Date.now().toString()}`)
-    );
-    //TODO:- Assign the newDocument.items to the user cart
-    const newTransaction = {
-      buyer: user,
-      date: today
-    };
-    //TODO Assign the new transaction cart to whatever the user cart is
-    return Transaction(newTransaction).save();
-  });
+  let pdfLink = "";
+  User.findById(id)
+    .then(user => {
+      const newDocument = {
+        company: {
+          phone: "(99) 9 9999-9999",
+          email: "biit@evilcorp.com",
+          address: "IIT Delhi",
+          name: "BIIT - IIT BAZAAR"
+        },
+        customer: {
+          name: user.name,
+          email: user.email
+        },
+        items: []
+      };
+      user.cart.forEach(item => {
+        newDocument.items.push({
+          amount: item.price,
+          name: item.name,
+          quantity: item.quantity
+        });
+      });
+      const document = pdfInvoice(newDocument);
+      document.generate();
+      const timeNow = `${Date.now().toString()}.pdf`;
+      console.log(timeNow);
+      document.pdfkitDoc.pipe(
+        fs.createWriteStream(
+          path.join(__dirname, "../", "public", "invoices", `${timeNow}`)
+        )
+      );
+      //TODO:- Assign the newDocument.items to the user cart
+      const newTransaction = {
+        buyer: user,
+        date: today,
+        cart: []
+      };
+      newTransaction.cart = [...user.cart];
+      user.cart = [];
+      user.pdf = timeNow;
+      pdfLink = timeNow;
+      return Promise.all([user.save(), Transaction(newTransaction).save()]);
+    })
+    .then(() => {
+      return res.render("download", { pdf: pdfLink });
+    })
+    .catch(err => {
+      next(err);
+    });
   //!EMPTY CART OF THE USER
 };

@@ -12,8 +12,8 @@ const multer = require("multer");
 const cloudinary = require("cloudinary");
 const cloudinaryStorage = require("multer-storage-cloudinary");
 const sgMail = require("@sendgrid/mail");
+const csrf = require("csurf");
 //! TO BE ADDED
-// const csrf = require('csrf')
 
 const keys = require("./config/keys");
 
@@ -52,12 +52,12 @@ app.use(session({ secret: "secret", resave: true, saveUninitialized: true }));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
-// app.use(csrf())
+app.use(csrf());
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use((req, res, next) => {
   res.locals.isLoggedIn = req.isAuthenticated();
-  // res.locals.csrfToken = req.csrfToken();
+  res.locals.csrfToken = req.csrfToken();
   if (req.user) {
     res.locals.isAdmin = req.user.admin;
     res.locals.profile = req.user;
@@ -85,7 +85,7 @@ app.use((error, req, res, next) => {
 //* Connecting To Mongoose
 mongoose.Promise = global.Promise;
 mongoose
-  .connect("mongodb://localhost/iitbazaar", { useNewUrlParser: true })
+  .connect(keys.mlabConfig.mongo_uri, { useNewUrlParser: true })
   .then(() => {
     console.log("Connected to MongoDB Database");
     const port = 3000;

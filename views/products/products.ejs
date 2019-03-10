@@ -29,7 +29,7 @@
         <div class="col-md-4 my-3">
           <div class="card bg-danger" style="width: 18rem;">
             <!-- PUT THE REAL IMAGE LINK HERE -->
-            <img src="/images/sample.jpg" class="card-img-top" alt="..." />
+            <img src="<%= product.imageURL %>" class="card-img-top" alt="..." />
             <div class="card-body">
               <h5 class="card-title text-center"><%= product.name %></h5>
               <h5 class="card-title text-center">
@@ -48,7 +48,9 @@
                 </div>
                 <% if(isLoggedIn) {%>
                 <div class="col-md-6">
-                  <a href="#" class="btn btn-primary block-inline"
+                  <a
+                    href="/products/addProductToCart/<%= product._id %>"
+                    class="btn btn-primary block-inline"
                     >Add To Cart</a
                   >
                 </div>
