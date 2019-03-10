@@ -77,9 +77,13 @@ app.use("/products", require("./routes/products"));
 app.use("/admin", require("./routes/admin"));
 app.use("/users", require("./routes/users"));
 
+app.use((req, res, next) => {
+  res.render("error404");
+});
+
 app.use((error, req, res, next) => {
-  console.log(error);
-  res.send("Found An Error");
+  console.log("error");
+  res.redirect("/");
 });
 
 //* Connecting To Mongoose
@@ -88,7 +92,7 @@ mongoose
   .connect(keys.mlabConfig.mongo_uri, { useNewUrlParser: true })
   .then(() => {
     console.log("Connected to MongoDB Database");
-    const port = 3000;
+    const port = process.env.PORT || 3000;
     app.listen(port, () => {
       console.log(`Listening On Port ${port}`);
     });

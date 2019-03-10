@@ -59,7 +59,9 @@
               <!-- THIS OPTION IS SHOWN ONLY IF USER IS ADMIN -->
               <% if(isAdmin) {%>
               <div class="row mt-3">
-                <a href="" class="btn btn-secondary btn-block"
+                <a
+                  href="admin/flagProduct/<%= product.id %>"
+                  class="btn btn-secondary btn-block"
                   >Flag This Product</a
                 >
               </div>

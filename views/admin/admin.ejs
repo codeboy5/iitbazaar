@@ -20,14 +20,72 @@
   </head>
   <body>
     <%- include('../includes/navbar.ejs') %>
-    <div class="row">
-      <div class="col-md-6">
-        LIST OF USERS
+    <h1>List of Users</h1>
+    <div class="container">
+      <% for(let user of users) {%>
+      <div class="row">
+        <div class="col sm-6"><%= user.name %></div>
+        <div class="col sm-6">
+          <% if(user.blocked) {%>
+          <a href="admin/blockUser/<%= user.id %>" class="btn btn-primary"
+            >Unblock User</a
+          >
+          <%} else {%>
+          <a href="admin/blockUser/<%= user.id %>" class="btn btn-danger"
+            >Block User</a
+          >
+          <%}%>
+        </div>
       </div>
-      <div class="col-md-6">
-        LIST OF RPODUCTS
-      </div>
+      <%}%>
     </div>
+
+    <br /><br /><br />
+    <hr />
+    <hr />
+    <hr />
+
+    <h2>List of All Products</h2>
+
+    <div class="container">
+      <% for(let product of products) {%>
+      <div class="row">
+        <div class="col sm-6"><%= product.name %></div>
+        <div class="col sm-6">
+          <% if(product.flagged) {%>
+          <a href="admin/flagProduct/<%= product.id %>" class="btn btn-primary"
+            >Unflag Product</a
+          >
+          <%} else {%>
+          <a href="admin/flagProduct/<%= product.id %>" class="btn btn-danger"
+            >Flag Product</a
+          >
+          <%}%>
+        </div>
+      </div>
+      <%}%>
+    </div>
+
+    <hr />
+    <hr />
+    <hr />
+
+    <h2>Transactions</h2>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-6">Buyer</div>
+        <div class="col-sm-6">Date</div>
+      </div>
+      <br /><br />
+      <% for(let transaction of transactions) {%>
+      <div class="row">
+        <div class="col-sm-6"><%= transaction.buyer.name %></div>
+        <div class="col-sm-6"><%= transaction.date %></div>
+      </div>
+      <%}%>
+    </div>
+
     <script
       src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
       integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
