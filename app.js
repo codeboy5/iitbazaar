@@ -13,9 +13,13 @@ const cloudinary = require("cloudinary");
 const cloudinaryStorage = require("multer-storage-cloudinary");
 const sgMail = require("@sendgrid/mail");
 const csrf = require("csurf");
+const dotenv = require("dotenv");
 //! TO BE ADDED
 
 const keys = require("./config/keys");
+dotenv.config();
+
+console.log(process.env.NODE_ENV);
 
 const app = express();
 
@@ -92,7 +96,7 @@ mongoose
   .connect(keys.mlabConfig.mongo_uri, { useNewUrlParser: true })
   .then(() => {
     console.log("Connected to MongoDB Database");
-    const port = process.env.PORT || 3000;
+    const port = process.env.PORT;
     app.listen(port, () => {
       console.log(`Listening On Port ${port}`);
     });
