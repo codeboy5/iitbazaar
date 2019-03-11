@@ -12,26 +12,24 @@ const multer = require("multer");
 const cloudinary = require("cloudinary");
 const cloudinaryStorage = require("multer-storage-cloudinary");
 const sgMail = require("@sendgrid/mail");
-const csrf = require("csurf");
+// const csrf = require("csurf");
 const dotenv = require("dotenv");
 //! TO BE ADDED
 
 const keys = require("./config/keys");
 dotenv.config();
 
-console.log(process.env.NODE_ENV);
-
 const app = express();
 
 require("./config/passport")(passport);
 
 cloudinary.config({
-  cloud_name: keys.cloudinaryConfig.cloud_name,
-  api_key: keys.cloudinaryConfig.api_key,
-  api_secret: keys.cloudinaryConfig.api_secret
+  cloud_name: process.env.CLOUDINARY_NAME,
+  api_key: process.env.CLOUDINARY_KEY,
+  api_secret: process.env.CLOUDINARY_SECRET
 });
 
-sgMail.setApiKey(keys.sendgridConfig.api_key);
+sgMail.setApiKey(process.env.SENDGRID_APIKEY);
 
 const storage = cloudinaryStorage({
   cloudinary: cloudinary,
@@ -56,12 +54,12 @@ app.use(session({ secret: "secret", resave: true, saveUninitialized: true }));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
-app.use(csrf());
+// app.use(csrf());
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use((req, res, next) => {
   res.locals.isLoggedIn = req.isAuthenticated();
-  res.locals.csrfToken = req.csrfToken();
+  // res.locals.csrfToken = req.csrfToken();
   if (req.user) {
     res.locals.isAdmin = req.user.admin;
     res.locals.profile = req.user;
@@ -81,19 +79,14 @@ app.use("/products", require("./routes/products"));
 app.use("/admin", require("./routes/admin"));
 app.use("/users", require("./routes/users"));
 
-app.use((req, res, next) => {
-  res.render("error404");
-});
-
 app.use((error, req, res, next) => {
-  console.log("error");
-  res.redirect("/");
+  return res.status(404).send(error);
 });
 
 //* Connecting To Mongoose
 mongoose.Promise = global.Promise;
 mongoose
-  .connect(keys.mlabConfig.mongo_uri, { useNewUrlParser: true })
+  .connect(process.env.MLAB_CONFIG, { useNewUrlParser: true })
   .then(() => {
     console.log("Connected to MongoDB Database");
     const port = process.env.PORT;

@@ -78,6 +78,7 @@ exports.getCheckout = (req, res, next) => {
       newTransaction.cart = [...user.cart];
       user.cart = [];
       user.pdf = timeNow;
+      user.respectPoints += parseInt(user.totalCartPrice) / 10;
       pdfLink = timeNow;
       return Promise.all([user.save(), Transaction(newTransaction).save()]);
     })

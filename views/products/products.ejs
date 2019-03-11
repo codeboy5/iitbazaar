@@ -21,8 +21,70 @@
   <body>
     <%- include('../includes/navbar.ejs') %>
     <div class="container" style="margin-top:25px">
-      <div class="row">
-        <h1>Here We Will Filter The Products</h1>
+      <h3 class="display-4">Filter Products</h3>
+      <div class="container">
+        <form method="POST" action="/products/filterProducts">
+          <div class="form-group row">
+            <label for="name" class="col-sm-2 col-form-label">Name</label>
+            <div class="col-sm-10">
+              <input
+                type="text"
+                class="form-control"
+                id="name"
+                placeholder="Product Name"
+                name="name"
+              />
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="category" class="col-sm-2 col-form-label"
+              >Categroy</label
+            >
+            <div class="col-sm-10">
+              <select class="form-control" id="category" name="category">
+                <option value="all">All</option>
+                <option value="fashion">Fashion</option>
+                <option value="tech">Tech</option>
+                <option value="books">Books</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="maxPrice" class="col-sm-2 col-form-label"
+              >Maximum Price</label
+            >
+            <div class="col-sm-10">
+              <input
+                type="number"
+                class="form-control"
+                id="maxPrice"
+                placeholder="Maximum Price"
+                name="maxPrice"
+              />
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="minPrice" class="col-sm-2 col-form-label"
+              >Minimum Price</label
+            >
+            <div class="col-sm-10">
+              <input
+                type="number"
+                class="form-control"
+                id="minPrice"
+                placeholder="Minimum Price"
+                name="minPrice"
+              />
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="col-sm-10">
+              <button type="submit" class="btn btn-primary">
+                Filter Products
+              </button>
+            </div>
+          </div>
+        </form>
       </div>
       <div class="row">
         <% for(let product of products) {%>

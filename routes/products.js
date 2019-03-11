@@ -37,6 +37,8 @@ router.get(
   productController.postAddProductToCart
 );
 
+router.post("/filterProducts", productController.postFilterProducts);
+
 router.post("/addComment/:id", isLoggedIn, productController.postAddComment);
 
 router.get("/:id", productController.getProduct);

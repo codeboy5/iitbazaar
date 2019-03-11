@@ -103,25 +103,36 @@ exports.postAddProductToCart = (req, res, next) => {
     });
 };
 
+//! EVERYTHING WORKS EXCEPT THE REGEX NAME SEARCH I GUESS
 exports.postFilterProducts = (req, res, next) => {
+  console.log("got here");
   const criteria = {};
   if (req.body.name) {
     criteria.name = req.body.name;
   }
-  if (req.body.minPrice && req.body.maxPrice) {
+  if (req.body.minPrice || req.body.maxPrice) {
     criteria.price = {
-      min: req.body.minPrice,
-      max: req.body.maxPrice
+      min: parseInt(req.body.minPrice) || 0,
+      max: parseInt(req.body.maxPrice) || 9999999
     };
   }
+  if (req.body.category && req.body.category !== "all") {
+    criteria.category = req.body.category;
+  }
+  console.log(criteria);
   Product.find(buildQuery(criteria))
     .then(products => {
-      res.status(422).send(products);
+      return res.render("products/products", { products: products });
     })
     .catch(err => {
       next(err);
     });
 };
+
+// exports.postFilterProducts = (req, res, next) => {
+//   console.log("we got the product");
+//   return res.status(200).send("We got The Product");
+// };
 
 exports.getAddLikeToProduct = (req, res, next) => {
   const { id } = req.params;
@@ -150,4 +161,8 @@ const buildQuery = criteria => {
       $gte: criteria.price.min
     };
   }
+  if (criteria.category) {
+    query.category = criteria.category;
+  }
+  return query;
 };
